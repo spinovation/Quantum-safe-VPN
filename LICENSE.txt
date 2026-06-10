@@ -1,0 +1,45 @@
+======================================================================
+                  QUARKSHIELD LLC - TERMS AND CONDITIONS
+                      QUANTUM-SAFE VPN CLIENT LICENSE
+======================================================================
+
+IMPORTANT - READ CAREFULLY: This License Agreement is a legal agreement 
+between you (either an individual or a single entity) and QuarkShield LLC 
+for the QuarkShield Quantum-Safe VPN client software, including any 
+associated media, printed materials, and electronic documentation.
+
+1. LICENSE GRANT
+QuarkShield LLC grants you a non-exclusive, non-transferable license to 
+install and execute the Quantum-Safe VPN client on enterprise end-user 
+devices (Windows and macOS laptops/desktops) solely to establish secure 
+connections with an authorized QuarkShield VPN Gateway.
+
+2. QUANTUM CRYPTOGRAPHY DISCLAIMER & WARRANTY LIMITATION
+The cryptographic security of this tunnel is negotiated using hybrid 
+schemes combining classical algorithms (ECDH) with post-quantum 
+algorithms (NIST FIPS 203 ML-KEM). 
+- QuarkShield LLC implements these algorithms strictly following current 
+  NIST and federal cryptographic specifications.
+- QuarkShield LLC makes no warranties that these algorithms are completely 
+  immune to future mathematical discoveries or unreleased quantum computing 
+  developments.
+- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+  OR IMPLIED.
+
+3. WINDOWS AND macOS COMPATIBILITY
+This installation package compiles and operates natively across both 
+target operating systems:
+- macOS: Installed via signed Apple Disk Image (.dmg) or PKG installer. 
+  Integrates with macOS Network Extension framework.
+- Windows: Installed via Microsoft Installer (.msi) package. Includes 
+  the QuarkShield TAP/Wintun virtual network adapter drivers.
+
+4. EXPORT REGULATION COMPLIANCE
+This software utilizes strong cryptographic encryption (including post-quantum 
+KEMs). You agree to comply fully with all United States and international 
+export laws and regulations, ensuring the client software is not exported, 
+re-exported, or transferred to restricted nations or entities.
+
+======================================================================
+Copyright (c) 2026 QuarkShield LLC. All Rights Reserved.
+======================================================================

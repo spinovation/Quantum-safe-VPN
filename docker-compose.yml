@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  vpn-gateway:
+    image: openquantumsafe/openvpn:latest
+    container_name: quantum-safe-vpn-gateway
+    restart: unless-stopped
+    ports:
+      - "1194:1194/udp"
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+    volumes:
+      - ./config:/etc/openvpn
+    environment:
+      - OQS_KEM_ALG=p256_kyber768
+      - OQS_SIG_ALG=mldsa65
+    command: openvpn --config /etc/openvpn/server.conf

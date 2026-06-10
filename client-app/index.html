@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuarkShield | Quantum-Safe VPN Client</title>
+  <!-- Google Fonts: Outfit & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="client-window">
+    <!-- Title Bar -->
+    <header class="title-bar">
+      <div class="window-controls">
+        <span class="dot close"></span>
+        <span class="dot minimize"></span>
+        <span class="dot maximize"></span>
+      </div>
+      <div class="app-title">
+        <span class="logo-text">QuarkShield</span>
+        <span class="badge">VPN v2.4.0</span>
+      </div>
+      <div class="connection-pill status-disconnected" id="top-status-pill">
+        <span class="pulse-dot"></span>
+        <span class="pill-text">Disconnected</span>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="app-body">
+      <!-- Navigation Sidebar -->
+      <aside class="app-sidebar">
+        <nav class="sidebar-nav">
+          <button class="nav-btn active" data-tab="connect">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+            <span>VPN Tunnel</span>
+          </button>
+          <button class="nav-btn" data-tab="crypto">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.886H3.877l4.906 3.564L6.87 18.337l5.13-3.728 5.13 3.728-1.913-5.087 4.906-3.564h-6.212z"/><path d="M12 3v11.609"/></svg>
+            <span>Cipher Settings</span>
+          </button>
+          <button class="nav-btn" data-tab="diagnostics">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="10" y1="3" y2="21"/><line x1="14" x2="14" y1="3" y2="21"/></svg>
+            <span>Diagnostics</span>
+          </button>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="security-status-indicator safe" id="sidebar-security-badge">
+            <span class="icon">🔒</span>
+            <span class="text">Quantum Safe</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Tab Contents -->
+      <main class="content-area">
+        <!-- TAB 1: Connect / Connection Dashboard -->
+        <section class="tab-content active" id="tab-connect">
+          <div class="grid-layout">
+            <!-- Left Panel: Connection Switch & Metrics -->
+            <div class="glass-card panel-main">
+              <h3>Secure Connection Control</h3>
+              <div class="power-button-container">
+                <button class="power-btn" id="vpn-toggle-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="power-icon"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" x2="12" y1="2" y2="12"/></svg>
+                </button>
+                <div class="connection-status-text" id="status-display-text">Click to Establish Quantum-Safe Tunnel</div>
+              </div>
+
+              <!-- Real-time metrics grid -->
+              <div class="metrics-grid">
+                <div class="metric-card">
+                  <div class="label">Virtual IP Address</div>
+                  <div class="value" id="metric-ip">- - -</div>
+                </div>
+                <div class="metric-card">
+                  <div class="label">Server Gateway</div>
+                  <div class="value" id="metric-gw">vpn.quarkshield.services</div>
+                </div>
+                <div class="metric-card">
+                  <div class="label">Tunnel Latency</div>
+                  <div class="value" id="metric-latency">- - -</div>
+                </div>
+                <div class="metric-card">
+                  <div class="label">Bytes Transferred</div>
+                  <div class="value" id="metric-bytes">0 KB</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Panel: Connection Path / Hop Diagram -->
+            <div class="glass-card panel-network">
+              <h3>Enterprise Routing Path</h3>
+              <div class="hop-diagram">
+                <div class="hop-node" id="hop-laptop">
+                  <div class="node-icon">💻</div>
+                  <div class="node-name">User Laptop</div>
+                  <div class="node-ip">192.168.1.45</div>
+                </div>
+
+                <div class="hop-line">
+                  <div class="data-packets" id="packets-laptop-gateway"></div>
+                </div>
+
+                <div class="hop-node" id="hop-gateway">
+                  <div class="node-icon">🛡️</div>
+                  <div class="node-name">VPN Gateway</div>
+                  <div class="node-ip">5.161.249.16</div>
+                  <div class="cipher-tag" id="network-cipher-tag">x25519_kyber768</div>
+                </div>
+
+                <div class="hop-line">
+                  <div class="data-packets" id="packets-gateway-corp"></div>
+                </div>
+
+                <div class="hop-node" id="hop-corp">
+                  <div class="node-icon">🏢</div>
+                  <div class="node-name">Corp Network</div>
+                  <div class="node-ip">10.0.0.0/8</div>
+                </div>
+              </div>
+
+              <div class="handshake-phase-card" id="handshake-phase-box">
+                <div class="phase-title">Secure Cryptographic Parameters</div>
+                <table class="parameters-table">
+                  <tr>
+                    <td>Key Encapsulation (KEM)</td>
+                    <td id="param-kem" class="pqc-highlight">ML-KEM-768 (Kyber)</td>
+                  </tr>
+                  <tr>
+                    <td>Classical Key Exchange</td>
+                    <td id="param-classical">ECDH X25519</td>
+                  </tr>
+                  <tr>
+                    <td>Certificate Signatures</td>
+                    <td id="param-sig" class="pqc-highlight">ML-DSA-65 (Dilithium3)</td>
+                  </tr>
+                  <tr>
+                    <td>Symmetric Cipher</td>
+                    <td id="param-symmetric">AES-256-GCM</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Panel: Scrollable Handshake Console -->
+          <div class="glass-card console-card">
+            <div class="console-header">
+              <span class="console-title">🖥️ OQS-OpenVPN Interactive Terminal Logs</span>
+              <button class="clear-btn" id="clear-console-btn">Clear Logs</button>
+            </div>
+            <div class="console-body" id="console-logs">
+              <div class="log-line system">[SYSTEM] QuarkShield PQC Tunnel Daemon initialized. Ready.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 2: Cipher Settings -->
+        <section class="tab-content" id="tab-crypto">
+          <div class="glass-card">
+            <h3>Post-Quantum Cryptographic Negotiator</h3>
+            <p class="description-text">Configure the cryptographic algorithms negotiated during the VPN handshake phase. Classical algorithms (RSA/ECC) are supplemented by NIST Post-Quantum standards (ML-KEM) to prevent retroactive decryption by future quantum computers.</p>
+
+            <div class="settings-form">
+              <div class="form-group">
+                <label for="kem-select">Key Encapsulation Mechanism (KEM) / Key Exchange</label>
+                <select id="kem-select" class="custom-select">
+                  <optgroup label="Hybrid Quantum-Safe (Recommended)">
+                    <option value="x25519_kyber768" selected>Hybrid: ECDH X25519 + ML-KEM-768 (NIST Standard)</option>
+                    <option value="p256_kyber768">Hybrid: ECDH P-256 + ML-KEM-768</option>
+                    <option value="p384_kyber1024">Hybrid: ECDH P-384 + ML-KEM-1024 (High Security)</option>
+                    <option value="frodo976_aes">Hybrid: ECDH X25519 + FrodoKEM-976-AES</option>
+                  </optgroup>
+                  <optgroup label="Classical-Only (Vulnerable to Quantum Adversaries)">
+                    <option value="x25519_only">Classical: ECDH X25519 Only</option>
+                    <option value="p256_only">Classical: ECDH P-256 Only</option>
+                    <option value="rsa3072_dh">Classical: DH + RSA-3072 Key Exchange</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <!-- Vulnerability warning box -->
+              <div class="warning-banner hidden" id="crypto-warning-banner">
+                <span class="warning-icon">⚠️</span>
+                <div class="warning-details">
+                  <h4>VULNERABLE CRYPTOGRAPHY SELECTORS</h4>
+                  <p>Selecting classical-only algorithms makes all traffic vulnerable to <strong>"Harvest Now, Decrypt Later" (HNDL)</strong> attacks. Adversaries intercepting this tunnel now can decrypt all corporate communications once quantum computers arrive.</p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="sig-select">Certificate Signature Verification (Authentication)</label>
+                <select id="sig-select" class="custom-select">
+                  <option value="mldsa65" selected>ML-DSA-65 (Post-Quantum Dilithium3)</option>
+                  <option value="mldsa87">ML-DSA-87 (High-Strength Post-Quantum Dilithium5)</option>
+                  <option value="ecdsa">ECDSA P-256 (Classical Certificate Signature)</option>
+                  <option value="rsa4096">RSA-4096 (Classical Certificate Signature)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="cipher-select">Symmetric Data Encryption</label>
+                <select id="cipher-select" class="custom-select">
+                  <option value="aes256" selected>AES-256-GCM (NIST Approved)</option>
+                  <option value="chacha20">ChaCha20-Poly1305 (High Performance)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Configuration Exporters -->
+            <div class="config-exporter-section">
+              <h3>Export VPN Configuration Profiles</h3>
+              <p class="description-text">Generate ready-to-run configurations matching your cryptographic choices above.</p>
+              
+              <div class="tab-exporter-header">
+                <button class="exporter-tab active" data-exp="client">client.conf (User Laptop)</button>
+                <button class="exporter-tab" data-exp="server">server.conf (Gateway)</button>
+              </div>
+              
+              <div class="exporter-body">
+                <pre><code id="config-code-box"># Generated client configuration...</code></pre>
+                <button class="copy-btn" id="copy-config-btn">Copy to Clipboard</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 3: Diagnostics -->
+        <section class="tab-content" id="tab-diagnostics">
+          <div class="glass-card">
+            <h3>Quantum Overhead Benchmarks</h3>
+            <p class="description-text">Post-Quantum Cryptography introduces minor performance tradeoffs due to larger public keys and ciphertexts compared to classical counterparts. Check the live comparison below based on your selected algorithm.</p>
+            
+            <div class="charts-container">
+              <!-- Chart 1: Public Key Size -->
+              <div class="chart-card">
+                <h4>Key Exchange Payload Sizes (Bytes)</h4>
+                <div class="bar-chart">
+                  <div class="bar-group">
+                    <div class="bar-label">ECDH X25519 (Classical)</div>
+                    <div class="bar-track">
+                      <div class="bar-fill classical" style="width: 5%"></div>
+                    </div>
+                    <div class="bar-value">32 Bytes</div>
+                  </div>
+                  <div class="bar-group">
+                    <div class="bar-label" id="diag-pq-name">ML-KEM-768 (Post-Quantum)</div>
+                    <div class="bar-track">
+                      <div class="bar-fill pq" id="diag-pq-bar" style="width: 75%"></div>
+                    </div>
+                    <div class="bar-value" id="diag-pq-val">1,184 Bytes</div>
+                  </div>
+                </div>
+                <div class="chart-insight">
+                  💡 PQC key payloads are roughly 37x larger, but fit well within standard IP MTU sizes (~1500 bytes) avoiding packet fragmentation.
+                </div>
+              </div>
+
+              <!-- Chart 2: Handshake Timing -->
+              <div class="chart-card">
+                <h4>Handshake Negotiation Overhead (Milliseconds)</h4>
+                <div class="bar-chart">
+                  <div class="bar-group">
+                    <div class="bar-label">ECDH (Classical Only)</div>
+                    <div class="bar-track">
+                      <div class="bar-fill classical" style="width: 25%"></div>
+                    </div>
+                    <div class="bar-value">0.8 ms</div>
+                  </div>
+                  <div class="bar-group">
+                    <div class="bar-label">Hybrid ECDH + PQC KEM</div>
+                    <div class="bar-track">
+                      <div class="bar-fill pq" style="width: 60%"></div>
+                    </div>
+                    <div class="bar-value" id="diag-time-val">2.1 ms</div>
+                  </div>
+                </div>
+                <div class="chart-insight">
+                  💡 The hybrid negotiation adds only ~1.3ms of CPU calculation time, offering complete immunity against future decryption with negligible impact.
+                </div>
+              </div>
+            </div>
+
+            <!-- Downloadable links -->
+            <div class="downloads-section" style="margin-top: 2.5rem; border-top: 1px solid var(--border-normal); padding-top: 2rem;">
+              <h3>Download Deployable Binaries</h3>
+              <p class="description-text">Download client builds and configuration utilities for distribution across your enterprise environment, or clone the project from GitHub.</p>
+              
+              <div class="download-links-grid">
+                <a href="#" class="download-card-link" onclick="showDownloadTerms('macOS'); return false;">
+                  <span class="dl-icon">🍎</span>
+                  <div class="dl-details">
+                    <div class="dl-title">macOS Client Installer</div>
+                    <div class="dl-meta">v2.4.0 • Intel/Apple Silicon DMG</div>
+                  </div>
+                </a>
+                <a href="#" class="download-card-link" onclick="showDownloadTerms('Windows'); return false;">
+                  <span class="dl-icon">🪟</span>
+                  <div class="dl-details">
+                    <div class="dl-title">Windows Client Installer</div>
+                    <div class="dl-meta">v2.4.0 • MSI Package</div>
+                  </div>
+                </a>
+                <a href="#" class="download-card-link" onclick="showDownloadTerms('Linux'); return false;">
+                  <span class="dl-icon">🐧</span>
+                  <div class="dl-details">
+                    <div class="dl-title">Linux Client Package</div>
+                    <div class="dl-meta">v2.4.0 • Debian/RPM packages</div>
+                  </div>
+                </a>
+                <a href="https://github.com/open-quantum-safe/openvpn" target="_blank" class="download-card-link">
+                  <span class="dl-icon">🐙</span>
+                  <div class="dl-details">
+                    <div class="dl-title">GitHub Project Repository</div>
+                    <div class="dl-meta">Source code, easy-rsa PQC modules</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+  </div>
+
+  <!-- Terms and Conditions Modal (QuarkShield LLC) -->
+  <div class="modal-overlay hidden" id="terms-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>QuarkShield LLC - Software End User License</h3>
+      </div>
+      <div class="modal-body">
+        <p class="modal-intro">Please review and accept the software licensing terms for QuarkShield LLC before downloading the installer packages. This client works on both <strong>Windows (x64/ARM64)</strong> and <strong>macOS (Apple Silicon/Intel)</strong>:</p>
+        <div class="terms-textbox">
+          <h4>1. USER LICENSE LICENSE</h4>
+          <p>QuarkShield LLC grants you a non-exclusive license to use the Quantum-Safe VPN client on authorized corporate laptops running Windows or macOS.</p>
+          
+          <h4>2. COMPATIBILITY & PLATFORM REQUIREMENTS</h4>
+          <p>The installation file will execute on:</p>
+          <ul>
+            <li><strong>macOS (Apple Silicon & Intel)</strong>: Delivered as a signed DMG container. Installs natively under macOS 12+ Network Extension framework.</li>
+            <li><strong>Windows (x64 & ARM64)</strong>: Delivered as an MSI package. Automatically registers virtual network interfaces utilizing the secure Wintun adapter layer.</li>
+          </ul>
+
+          <h4>3. CRYPTOGRAPHIC EXPORT CONTROLS</h4>
+          <p>This product implements strong NIST post-quantum key exchange (ML-KEM-768/1024) and signatures. You verify that your enterprise is fully compliant with US Export Administration Regulations (EAR) and won't deploy this software inside restricted foreign domains.</p>
+          
+          <h4>4. DISCLAIMER OF WARRANTIES</h4>
+          <p>THE SOFTWARE IS DISTRIBUTED "AS IS" BY QUARKSHIELD LLC, WITHOUT EXPRESS OR IMPLIED WARRANTY OF IMMUNITY AGAINST FUTURE QUANTUM CODE-BREAKING ALGORITHMIC ADVANCEMENTS.</p>
+        </div>
+        <div class="checkbox-container">
+          <input type="checkbox" id="accept-checkbox">
+          <label for="accept-checkbox">I accept the terms and conditions of QuarkShield LLC for Windows & macOS installation.</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn secondary" id="decline-terms-btn">Cancel</button>
+        <button class="modal-btn primary disabled" id="accept-terms-btn" disabled>Accept & Download</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
