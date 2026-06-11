@@ -96,3 +96,21 @@ An interactive, premium single-page web dashboard is provided to demonstrate the
 To protect against initial implementation vulnerabilities in new PQC math, **FIPS 203** key exchanges are combined in hybrid mode. For example, `x25519_kyber768` runs both key exchanges in parallel. The resulting shared secret is:
 $$\text{SharedSecret} = \text{HKDF}(\text{ECDH\_secret} \mathbin{\Vert} \text{Kyber\_secret})$$
 This ensures decryption is impossible unless *both* algorithms are broken.
+
+---
+
+## ❓ Frequently Asked Questions (FAQ)
+
+### 1. Which corporate subnet range does this VPN route to?
+By default, the gateway is configured to allocate IP addresses within the **`10.8.0.0/24`** subnet for active VPN clients. It pushes routing tables to client devices redirecting traffic designated for the corporate network range (configured as **`10.0.0.0/8`** in template routing paths) through the tunnel.
+
+### 2. Do I need to configure my browser or client tools to access internal sources?
+**No.** The VPN client operates at the system level. When you toggle the connection, it registers a virtual network interface (`tun0` on macOS or a `Wintun` interface on Windows) and injects the routing table directly into your operating system kernel. Packets heading to any internal IP (e.g. `10.150.1.20`) are automatically routed and encrypted through the tunnel transparently.
+
+### 3. Is the compiled desktop client GUI a simulator or a real client?
+The desktop GUI application (`QuarkShieldVPN.app`) acts as a **high-fidelity interactive simulator** for training, configuration testing, and performance auditing. To establish a **real network socket tunnel** to your running Hetzner server (`5.161.249.16`), you execute the OQS OpenVPN client launcher via the terminal or inside Docker as documented in the Quick Start section.
+
+### 4. What are the installation requirements for macOS and Windows?
+*   **macOS**: Requires double-clicking the DMG, dragging to Applications, and clicking **Allow** on the macOS prompt to authorize the Network Extension API configurations.
+*   **Windows**: Requires running the MSI installer and clicking **Install/Trust** when Windows Security requests permission to register the secure **Wintun virtual adapter driver**.
+
