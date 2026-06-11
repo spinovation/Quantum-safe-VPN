@@ -27,8 +27,10 @@ Traditional VPN client-server handshakes rely on ECDH, DH, or RSA for key negoti
 ```text
 quantum-safe-vpn/
 ├── docker-compose.yml         # Gateway Docker compose container configurations
+├── LICENSE.txt                # QuarkShield LLC Software License Agreement
 ├── setup_gateway.sh           # Auto-provisions gate certificates and PKI variables
 ├── setup_client.sh            # Packages client profiles and generates client keys
+├── USER_INSTALL_GUIDE.md      # Client Installation & User Guide for Windows/macOS
 ├── templates/
 │   ├── server.conf            # Gateway daemon configuration template
 │   └── client.conf            # User client configuration template
