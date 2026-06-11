@@ -17,12 +17,23 @@ Before beginning, ensure your device meets the following specifications:
 
 ## 📥 Step 1: Downloading the Client Installer
 
-1.  Navigate to your corporate QuarkShield portal page in your web browser (e.g., `https://vpn.quarkshield.services` or your allocated customer gateway address).
-2.  Click on the **Downloads** or **Diagnostics** tab.
-3.  Click the download card matching your operating system:
+IT administrators support two secure distribution channels for fetching the pre-compiled installer files:
+
+### Channel A: QuarkShield Console Portal (Master or Node Login)
+1.  Log in to your assigned corporate QuarkShield portal page (e.g., the Master Admin portal at `https://quarkshield.services` or your company's dedicated node gateway at `https://[tenant].quarkshield.services`).
+2.  Navigate to the **SIEM Integration** or **Diagnostics & Downloads** tab.
+3.  Click on the installer card matching your laptop:
     *   🍎 **macOS Client Installer** (`QuarkShield-VPN-Client-v2.4.0.dmg`)
     *   🪟 **Windows Client Installer** (`QuarkShield-VPN-Client-v2.4.0.msi`)
-4.  A **QuarkShield LLC End User License Agreement** modal will appear. Review the terms, check the **"I accept the terms and conditions"** box, and click **Accept & Download** to start the download.
+4.  Review and accept the **QuarkShield LLC End User License Agreement (EULA)** modal to initiate the secure download.
+
+### Channel B: GitHub Enterprise Releases (Direct Download)
+If your organization distributes software directly from version control:
+1.  Navigate to the secure corporate GitHub repository release page:
+    *   👉 `https://github.com/spinovation/Quantum-safe-VPN/releases`
+2.  Under the **v2.4.0 Release Assets** section, download the pre-packaged binary for your device:
+    *   macOS: `QuarkShieldVPN-darwin-universal.zip` (contains the universal `.app` bundle).
+    *   Windows: `QuarkShieldVPN-win32-x64.zip` (contains the `.exe` installer).
 
 ---
 
