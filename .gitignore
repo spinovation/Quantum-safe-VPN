@@ -1,0 +1,10 @@
+# Electron build files
+client-app/node_modules/
+client-app/dist/
+
+# Test key and log output folders
+client/
+config/
+logs/
+*.log
+.DS_Store
