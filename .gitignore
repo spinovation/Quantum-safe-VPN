@@ -8,3 +8,5 @@ config/
 logs/
 *.log
 .DS_Store
+release/
+
